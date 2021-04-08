@@ -1,5 +1,6 @@
 <!doctype html>
 <html ng-app='ajaxapp'>
+
 <head>
     <title>AngularJs</title>
     <script src='https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js'></script>
@@ -12,24 +13,27 @@
 <script>
 var k;
     angular.module("ajaxapp",[]).controller("myctr",function($scope,$http){
-        $scope.arr=[];
-        $scope.data=function(){
-            $http.get('https://myjsonfile.s3.ap-south-1.amazonaws.com/sample.json').then(function(payload){
-                $scope.arr=payload.data;
-            /*    k=$scope.arr;
-                for(var z=0;z<k.length;k++){
-                    if(k[z].name=='prasad'){
-                        alert('login sucess')
+
+        var onSuccess = function (data, status, headers, config) {
+                $scope.data = data;
+            };
+
+            var onError = function (data, status, headers, config) {
+                $scope.error = status;
+            }
+
+            $http.post('https://raw.githubusercontent.com/prasadkanika/json_files/main/sample.json',
+            JSON.stringify({ myData: 'Hello World!' })).then(
+                function(response){
+                    if(response.data){
+                        alert('sucess')
                     }
-                }*/
-
-            },function(message){
-                alert("ajax request denied")
-            })
-
-        }
-    });
-
+                },
+                function(response){
+                    alert(response.header)
+                }
+            )
+        });
 </script>
 </body>
 </html>
