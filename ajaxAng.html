@@ -1,0 +1,35 @@
+<!doctype html>
+<html ng-app='ajaxapp'>
+<head>
+    <title>AngularJs</title>
+    <script src='https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js'></script>
+</head>
+<body ng-controller='myctr'>
+    <button ng-click='data()'>Get Data</button>
+    <ol ng-repeat='a in arr'>
+        <li>{{a.name}}</li>
+    </ol>
+<script>
+var k;
+    angular.module("ajaxapp",[]).controller("myctr",function($scope,$http){
+        $scope.arr=[];
+        $scope.data=function(){
+            $http.get('https://myjsonfile.s3.ap-south-1.amazonaws.com/sample.json').then(function(payload){
+                $scope.arr=payload.data;
+            /*    k=$scope.arr;
+                for(var z=0;z<k.length;k++){
+                    if(k[z].name=='prasad'){
+                        alert('login sucess')
+                    }
+                }*/
+
+            },function(message){
+                alert("ajax request denied")
+            })
+
+        }
+    });
+
+</script>
+</body>
+</html>
